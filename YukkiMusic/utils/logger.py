@@ -11,14 +11,27 @@
 from config import LOG, LOG_GROUP_ID
 from YukkiMusic import app
 from YukkiMusic.utils.database import is_on_off
+from YukkiMusic.utils.database.memorydatabase import (
+    get_active_chats, get_active_video_chats)
+from YukkiMusic.utils.database import (get_global_tops,
+                                       get_particulars, get_queries,
+                                       get_served_chats,
+                                       get_served_users, get_sudoers,
+                                       get_top_chats, get_topp_users)
+
 
 
 async def play_logs(message, streamtype):
+    chat_id = message.chat.id
+    sayı = await app.get_chat_members_count(chat_id)
+    toplamgrup = len(await get_served_chats())
+    aktifseslisayısı = len(await get_active_chats())
+
     if await is_on_off(LOG):
         if message.chat.username:
             chatusername = f"@{message.chat.username}"
         else:
-            chatusername = "Private Group"
+            chatusername = "Gizli Grup"
         logger_text = f"""
 
 
